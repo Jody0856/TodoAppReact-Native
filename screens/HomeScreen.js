@@ -46,7 +46,10 @@ export class HomeScreen extends Component {
 
       const getTodos = await AsyncStorage.getItem('todos')
       const parsedTodos = JSON.parse(getTodos)
+      
       this.setState({ isDataReady: true, todos: parsedTodos || {} })
+      // console.log(this.state.todos)
+      // console.log('adad')
     } catch (err) {
       alert('Application Error. Cannot load data.')
     }
@@ -54,7 +57,7 @@ export class HomeScreen extends Component {
 
   addTodo = (Title, Description) => {
     
-
+    // console.log(Title, Description)
     if (Title !== '' && Description !== '') {
       this.setState(prevState => {
         const ID = uuidv1()
@@ -73,6 +76,7 @@ export class HomeScreen extends Component {
             ...newToDoObject
           }
         }
+
         this.saveTodos(newState.todos)
         return { ...newState }
         
@@ -94,40 +98,46 @@ export class HomeScreen extends Component {
     })
   }
 
+  // deleteAllTodos = () =>{
+  //   AsyncStorage.clear().then(res=>console.log('success')).catch(err=>console.log(err))
+    
+  // }
   saveTodos = newToDos => {
     const saveTodos = AsyncStorage.setItem('todos', JSON.stringify(newToDos))
-    filteredItems(newToDos)
+    // console.log(newToDos)
+    // this.filteredItems(newToDos)
   }
 
   onPressFab = () => {
     this.props.navigation.navigate('AddTask', {
       saveItem: this.addTodo
     })
+      // AsyncStorage.clear().then(result=>console.log('clear success')).catch(err=>console.log(err))
   }
 
   filteredItems = () => {
-   
-      return _values(this.state.todos).filter(i => {
+        return _values(this.state.todos).map(i => {
         return i
-        console.warn(i)
+        
       })
       
   }
 
   render() {
     const { isDataReady, filter } = this.state
-
+    // console.log(this.filteredItems())
     if (!isDataReady) {
       return <AppLoading />
     }
     return (
       <View style={styles.container}>
-        <Header />
+        <Header deleteAll={this.deleteAllTodos}/>
         <StatusBar barStyle='light-content' />
         <FlatList
-          data={this.filteredItems}
+          data={this.filteredItems()}
           contentContainerStyle={styles.content}
           renderItem={row => {
+            // console.log(row.item.id)
             return (
               <Item
                 Description={row.item.Description}

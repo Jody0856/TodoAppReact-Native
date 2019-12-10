@@ -1,4 +1,3 @@
-  
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import { Form, Item, Input, Button, Text as NBText } from 'native-base'
@@ -35,7 +34,7 @@ export class AddTaskScreen extends Component {
 								autoFocus
 								clearButtonMode='always'
 								autoCorrect={false}
-								onChange={(text) =>this.onChangeTitle(text)}
+								onChangeText={(text) =>this.onChangeTitle(text)}
 								returnKeyType={'done'}
 							/>
 						</Item>
@@ -46,7 +45,7 @@ export class AddTaskScreen extends Component {
 								autoFocus
 								clearButtonMode='always'
 								autoCorrect={false}
-								onChange={(text)=>this.onChangeDesc(text)}
+								onChangeText={(text)=>this.onChangeDesc(text)}
 								returnKeyType={'done'}
 							/>
 						</Item>
