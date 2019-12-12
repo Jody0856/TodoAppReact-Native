@@ -20,7 +20,7 @@ const Item = ({ Description, Title, id, deleteTodo }) => {
 				</Text>
 			</View>
 			<TouchableOpacity onPressOut={() => deleteTodo(id)}>
-				<Icon name='md-trash' style={{ color: '#ABADF9', paddingRight: 10 }} />
+				<Icon name='md-trash' style={{ color: '#f54242', paddingRight: 10 }} />
 			</TouchableOpacity>
 		</View>
 	)
@@ -28,20 +28,20 @@ const Item = ({ Description, Title, id, deleteTodo }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		borderBottomColor: '#5859f2',
+		borderBottomColor:  '#4287f5',
 		borderBottomWidth: StyleSheet.hairlineWidth,
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between'
 	},
 	text: {
-		color: '#4F50DC',
+		color:  '#4287f5',
 		fontSize: 18,
 		marginVertical: 20,
 		paddingLeft: 10
 	},
 	textTitle: {
-		color: '#230FFF',
+		color:  '#4287f5',
 		fontSize: 18,
 		marginVertical: 20,
 		paddingLeft: 10

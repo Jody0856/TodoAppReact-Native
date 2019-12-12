@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -8,13 +8,13 @@ import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import LoginScreen from '../screens/LoginScreen';
 import AddTaskScreen from '../screens/AddTaskScreen';
+
 const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
 });
 
-
-
+// for Home Tab
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
@@ -39,6 +39,7 @@ HomeStack.navigationOptions = {
 
 HomeStack.path = '';
 
+// for Scanner Tab
 const LinksStack = createStackNavigator(
   {
     Links: LinksScreen,
@@ -55,13 +56,35 @@ LinksStack.navigationOptions = {
 
 LinksStack.path = '';
 
+//Login
+const LoginStack = createStackNavigator(
+  { 
+    Login: LoginScreen 
+  },
+  {
+    headerMode: 'none'
+  }
 
+);
+
+LoginStack.path = '';
+
+//Tab Navigator
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   LinksStack,
 
 });
 
+
 tabNavigator.path = '';
 
-export default tabNavigator;
+export default createAppContainer(createSwitchNavigator(
+  {
+    LoginStack,
+    tabNavigator
+  },
+  {
+    initialRouteName: 'LoginStack'
+  }
+));

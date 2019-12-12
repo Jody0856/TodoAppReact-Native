@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, View, StatusBar, StyleSheet, AsyncStorage } from 'react-native'
+import { FlatList, View, StatusBar, StyleSheet, AsyncStorage, ToastAndroid } from 'react-native'
 import uuidv1 from 'uuid/v1'
 import _values from 'lodash.values'
 import { Button, Text as NBText, Segment } from 'native-base'
@@ -10,6 +10,7 @@ import Item from '../components/Item'
 import FloatingButton from '../components/FloatingButton'
 
 export class HomeScreen extends Component {
+  
   static navigationOptions = {
     header: null
   }
@@ -60,6 +61,7 @@ export class HomeScreen extends Component {
     // console.log(Title, Description)
     if (Title !== '' && Description !== '') {
       this.setState(prevState => {
+        console.log(prevState)
         const ID = uuidv1()
         const newToDoObject = {
           [ID]: {
@@ -68,16 +70,18 @@ export class HomeScreen extends Component {
             Description: Description,
             createdAt: Date.now()
           }
-        }
+        } //ini object terbaru
+
         const newState = {
-          ...prevState,
+          ...prevState, //ini object sebelumnya yang banyal
           todos: {
             ...prevState.todos,
             ...newToDoObject
           }
-        }
-
+        } //ini
+        console.log(newState)
         this.saveTodos(newState.todos)
+        ToastAndroid.show('Added Task Success!', ToastAndroid.SHORT)
         return { ...newState }
         
 
@@ -87,6 +91,7 @@ export class HomeScreen extends Component {
 
   deleteTodo = id => {
     this.setState(prevState => {
+      
       const todos = prevState.todos
       delete todos[id]
       const newState = {
@@ -94,6 +99,7 @@ export class HomeScreen extends Component {
         ...todos
       }
       this.saveTodos(newState.todos)
+       ToastAndroid.show('Delete Task Success!', ToastAndroid.SHORT)
       return { ...newState }
     })
   }
@@ -102,6 +108,9 @@ export class HomeScreen extends Component {
   //   AsyncStorage.clear().then(res=>console.log('success')).catch(err=>console.log(err))
     
   // }
+  logOutTodos = () =>{
+    this.props.navigation.navigate('LoginStack')
+  }
   saveTodos = newToDos => {
     const saveTodos = AsyncStorage.setItem('todos', JSON.stringify(newToDos))
     // console.log(newToDos)
@@ -122,7 +131,7 @@ export class HomeScreen extends Component {
       })
       
   }
-
+  
   render() {
     const { isDataReady, filter } = this.state
     // console.log(this.filteredItems())
@@ -131,7 +140,7 @@ export class HomeScreen extends Component {
     }
     return (
       <View style={styles.container}>
-        <Header deleteAll={this.deleteAllTodos}/>
+        <Header signOut={this.logOutTodos}/>
         <StatusBar barStyle='light-content' />
         <FlatList
           data={this.filteredItems()}
